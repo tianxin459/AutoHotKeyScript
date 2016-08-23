@@ -19,11 +19,21 @@ Return
 
 ;google the selected text
 !g::
-	AutoTrim, on
+	;AutoTrim, on
 	Send ^c
 	searchtext = %clipboard%
-	;searchtext := Trim(searchtext)
+	searchtext := Trim(searchtext)
 	Run "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "https://www.google.com/#q=%searchtext%"
+Return
+
+
+;baidu the selected text
+!b::
+	;AutoTrim, on
+	Send ^c
+	searchtext = %clipboard%
+	searchtext := Trim(searchtext)
+	Run "https://www.baidu.com/s?wd=%searchtext%"
 Return
 
 ;chose a line
@@ -33,16 +43,29 @@ Return
 Return
 
 ^+LButton up::
-	;Input, OutputVar, L1
-	Send, GDAA31202140
-	Send, {tab}
-	Send, {tab}
-	Send, NECTESTAU0
-	Send, {Enter}
+	WinGetTitle, title, A
+	targetText := "Account Login"
+	IfInString, title, %targetText%
+		Send, GDAA31202140
+		Send, {tab}
+		Send, {tab}
+		Send, NECTESTAU0
+		Send, {Enter}
 Return
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Test;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Transform, CtrlC, Chr, 3
 Input, OutputVar, L1 M
 	MsgBox, You pressed Control-Chr
+Return
+
+!t::
+	WinGetTitle, title, A
+	WinGetText, TText
+	targetText := "Account Login"
+	IfInString, title, %targetText%
+		MsgBox, Window WinGetTitle %title% `rText %TText%
+	else
+		MsgBox, WinGetTitle %title%
 Return
