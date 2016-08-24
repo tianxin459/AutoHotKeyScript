@@ -15,7 +15,7 @@ account_gd.Insert({id:"yygd793801", pwd:"nectest66"}) ;8
 Text_ReviewRN(name){
 	content = 
 	(
-Hi +%name%
+Hi %name%
 Please help to perform the security review.
 thanks.
 	)
@@ -23,23 +23,13 @@ thanks.
 	return content
 }
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-Text;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;]d => datetime like 9/1/2005
 :*:]d::
 	FormatTime, CurrentDateTime,, MM/dd/yyyy  
 	SendInput %CurrentDateTime%
 return
-/*
-;double {tab} => help to review RN
-:`t:`t::
-	WinGetTitle, title, A
-	;if in sd review screen
-	if(RegExMatch(title, "Submit for Security Review \[SD\-\d+\] \- Green Dot Corp \| Issue Tracker")>0)
-	{
-		Send, % Text_ReviewRN("Jack")
-	}
-Return
-*/
 
 ;hrv+{tab}+[name]+{tab} => send out the text with name
 :`t:hrv::
@@ -128,22 +118,21 @@ Return
 Return
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-SQL Server;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;** => top 10 *
-:*:**::
-	WinGetClass, className, A
-	if(className == "wndclass_desked_gsk")
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-System;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;open cmd
++^c::
+	IfWinActive, ahk_class CabinetWClass
 	{
-		SendInput, top 10 *
+		ControlGetText, address, edit1, ahk_class CabinetWClass
+		Run, cmd, %address%
 	}
 	else
 	{
-		SendInput, **
+		Run, cmd
 	}
 Return
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Test;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Script Itself;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;get the latest fro git
 ^+!u::
 	Run "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "https://raw.githubusercontent.com/tianxin459/AutoHotKeyScript/master/ETAtScript.ahk"
@@ -158,25 +147,18 @@ Return
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Test;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 !t::
-IfWinActive
-MsgBox active win
+	 MsgBox test
 Return
-	dirfolder = C:\Users\etian\Desktop\Works\
-	FormatTime, CurrentDateTime,, yyyyMMdd  
-	InputBox, strComponent, Component:, input Component text ,,,100
-	Run MSPAINT
-	sleep 500
-	Send, ^v
-	sleep 500
-	Send, ^s
-	Winwait, Save As,,3
-	if ErrorLevel 
-		Return
-	SendInput %dirfolder%hpscan_%strComponent%_%CurrentDateTime%.png
-	sleep 500
-	Send, !s
-	Winwait, Confirm Save As,,0
-	if ErrorLevel 
-		Return
-	Send, !y
-Return
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-SQL Server;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;** => top 10 *
+#IfWinActive ahk_class wndclass_desked_gsk
+:*:**::SendInput, top 10 *
+return
+
+;enable the ctrl+c/ctrl+v in cmd
+#IfWinActive ahk_class ConsoleWindowClass
+^C:: Click, Right
+^V:: Click, Right
+return
+
