@@ -52,7 +52,6 @@ Return
 Return
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-Edit;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 ;chose a line
 !a::
 	Send {Home}
@@ -129,18 +128,55 @@ Return
 Return
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-SQL Server;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;** => top 10 *
+:*:**::
+	WinGetClass, className, A
+	if(className == "wndclass_desked_gsk")
+	{
+		SendInput, top 10 *
+	}
+	else
+	{
+		SendInput, **
+	}
+Return
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Test;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;get the latest fro git
 ^+!u::
 	Run "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "https://raw.githubusercontent.com/tianxin459/AutoHotKeyScript/master/ETAtScript.ahk"
+Return
+
+;edit script in git
+^+!e::
+	Run "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "https://github.com/tianxin459/AutoHotKeyScript/edit/master/ETAtScript.ahk"
 Return
 
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Test;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 !t::
-	WinGetTitle, title, A
-	if(RegExMatch(title, "Submit for Security Review \[SD\-\d+\] \- Green Dot Corp \| Issue Tracker")>0)
-		MsgBox, Match %title%
-	else
-		MsgBox, not match `n%title%
+IfWinActive
+MsgBox active win
+Return
+	dirfolder = C:\Users\etian\Desktop\Works\
+	FormatTime, CurrentDateTime,, yyyyMMdd  
+	InputBox, strComponent, Component:, input Component text ,,,100
+	Run MSPAINT
+	sleep 500
+	Send, ^v
+	sleep 500
+	Send, ^s
+	Winwait, Save As,,3
+	if ErrorLevel 
+		Return
+	SendInput %dirfolder%hpscan_%strComponent%_%CurrentDateTime%.png
+	sleep 500
+	Send, !s
+	Winwait, Confirm Save As,,0
+	if ErrorLevel 
+		Return
+	Send, !y
 Return
