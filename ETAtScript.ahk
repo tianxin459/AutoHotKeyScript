@@ -23,6 +23,15 @@ thanks.
 	return content
 }
 
+Text_ReviewCC(){
+	content = 
+	(
+cc [~snellaiyappan], [~sperumal], [~efeigelstock], [~xwang], [~jstabile], [~ddong], [~jxu2], [~kli1], [~ewang2], [~wzhao], [~markyuan]
+	)
+
+	return content
+}
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-Text;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;]d => datetime like 9/1/2005
@@ -30,6 +39,7 @@ thanks.
 	FormatTime, CurrentDateTime,, MM/dd/yyyy  
 	SendInput %CurrentDateTime%
 return
+
 
 ;hrv+{tab}+[name]+{tab} => send out the text with name
 :`t:hrv::
@@ -92,11 +102,19 @@ Return
 	InputBox, searchtext, Ticket No.:, input search text ,,,100
 	if(searchtext=="")
 		Return
-	if(RegExMatch(searchtext,"^\d+$")>0)
+	if(RegExMatch(searchtext,"^\d+$")>0) ; gd ticket
 	{
 		searchtext =GD-%searchtext%
+		Run "https://pd/browse/%searchtext%"
 	}
-	Run "https://pd/browse/%searchtext%"
+	else if(RegExMatch(searchtext,"^SD-\d+$")>0) ; sd ticket
+	{
+		Run "https://sd/browse/%searchtext%"
+	}
+	else ; other storykind
+	{
+		Run "https://pd/browse/%searchtext%"
+	}
 Return
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-GDSite;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -132,35 +150,8 @@ Return
 	}
 Return
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Script Itself;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;get the latest fro git
-^+!u::
-	Run "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "https://raw.githubusercontent.com/tianxin459/AutoHotKeyScript/master/ETAtScript.ahk"
-Return
-
-;edit script in git
-^+!e::
-	Run "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "https://github.com/tianxin459/AutoHotKeyScript/edit/master/ETAtScript.ahk"
-Return
-
-
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-SQL Server;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;** => top 10 *
-#IfWinActive ahk_class wndclass_desked_gsk
-:*:**::SendInput, top 10 *
-return
-
-;enable the ctrl+c/ctrl+v in cmd
-#IfWinActive ahk_class ConsoleWindowClass
-^C:: Click, Right
-^V:: Click, Right
-return
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Test;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-#IfWinActive
-!t::
+;save screenshot for hpscan
+^+p::
 	dirfolder = C:\Users\etian\Desktop\Works\
 	FormatTime, CurrentDateTime,, yyyyMMdd  
 	InputBox, strComponent, Component:, input Component text ,,,100
@@ -175,135 +166,16 @@ return
 	SendInput %dirfolder%hpscan_%strComponent%_%CurrentDateTime%.png
 	sleep 500
 	Send, !s
-	Winwait, Confirm Save As,,0
+	Winwait, Confirm Save As,,3
 	if ErrorLevel 
 		Return
 	Send, !y
 	sleep 1000
-	ifWinExist
-	;WinClose 
-Return
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Function;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-Text_ReviewRN(name){
-	content = 
-	(
-Hi %name%
-Please help to perform the security review.
-thanks.
-	)
-
-	return content
-}
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-Text;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;]d => datetime like 9/1/2005
-:*:]d::
-	FormatTime, CurrentDateTime,, MM/dd/yyyy  
-	SendInput %CurrentDateTime%
-return
-
-;hrv+{tab}+[name]+{tab} => send out the text with name
-:`t:hrv::
-	Input, OutputVar,, {tab}
-	if(OutputVar=="")
+	ifWinExist, hpscan_%strComponent%_%CurrentDateTime%.png - Paint
 	{
-		OutputVar := "Jack"
-	}
-	Send, % Text_ReviewRN(OutputVar)
-Return
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-Edit;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;chose a line
-!a::
-	Send {Home}
-	Send +{End}
-Return
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-Web;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;open google
-^+g::
-	InputBox, searchtext, Google:, input search text ,,,100
-	if(searchtext=="")
-		Return
-	Run "https://www.google.com/#q=%searchtext%"
-Return
-
-;baidu the selected text
-~^+b::
-	InputBox, searchtext, Baidu:, input search text ,,,100
-	if(searchtext=="")
-		Return
-	Run "https://www.baidu.com/s?wd=%searchtext%"
-Return
-
-;google the selected text
-!g::
-	;AutoTrim, on
-	Send ^c
-	sleep 100
-	searchtext = %clipboard%
-	searchtext := Trim(searchtext)
-	Run "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "https://www.google.com/#q=%searchtext%"
-Return
-
-
-;baidu the selected text
-!b::
-	;AutoTrim, on
-	Send ^c
-	sleep 100
-	searchtext = %clipboard%
-	searchtext := Trim(searchtext)
-	Run "https://www.baidu.com/s?wd=%searchtext%"
-Return
-
-;open jira ticket
-^!q::
-	InputBox, searchtext, Ticket No.:, input search text ,,,100
-	if(searchtext=="")
-		Return
-	if(RegExMatch(searchtext,"^\d+$")>0)
-	{
-		searchtext =GD-%searchtext%
-	}
-	Run "https://pd/browse/%searchtext%"
-Return
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-GDSite;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-^+x up::
-	Input, index, L1 M
-	WinGetTitle, title, A
-	targetText := "Account Login"
-	acc := account_gd[index]
-	accid := acc.id
-	accpwd := acc.pwd
-	if(accid=="")
-		Return
-	IfInString, title, %targetText%
-		Send, %accid%
-		Send, {tab}
-		Send, {tab}
-		Send, %accpwd%
-		Send, {Enter}
-Return
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-System;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;open cmd
-+^c::
-	IfWinActive, ahk_class CabinetWClass
-	{
-		ControlGetText, address, edit1, ahk_class CabinetWClass
-		Run, cmd, %address%
-	}
-	else
-	{
-		Run, cmd
+		WinClose , hpscan_%strComponent%_%CurrentDateTime%.png - Paint
 	}
 Return
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Script Itself;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;get the latest fro git
 ^+!u::
@@ -317,12 +189,7 @@ Return
 
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Test;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-!t::
-	 MsgBox test
-Return
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-SQL Server;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-App wise;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;** => top 10 *
 #IfWinActive ahk_class wndclass_desked_gsk
 :*:**::SendInput, top 10 *
@@ -334,3 +201,24 @@ return
 ^V:: Click, Right
 return
 
+;  SendInput %Text_ReviewCC()% 
+#IfWinActive ahk_class MozillaWindowClass 
+:*:ccc::
+	Send, % Text_ReviewCC()
+return
+
+#IfWinActive ahk_class IEFrame 
+:*:ccc::
+	Send, % Text_ReviewCC()
+return
+
+#IfWinActive ahk_exe chrome.exe
+:*:ccc::
+	Send, % Text_ReviewCC()
+return
+
+#IfWinActive 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Test;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+~!t::
+	
+Return
