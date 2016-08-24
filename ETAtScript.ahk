@@ -1,4 +1,4 @@
-﻿
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Global-Var;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 account_gd := []
 account_gd.Insert({id:"GDAA31202140",pwd:"NECTESTAU0"}) ;1
@@ -24,18 +24,24 @@ thanks.
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-Text;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;]d=>datetime
+;]d => datetime like 9/1/2005
 :*:]d::
-	FormatTime, CurrentDateTime,, MM/dd/yyyy  ; 看起来会像 9/1/2005 3:53 PM 这样
+	FormatTime, CurrentDateTime,, MM/dd/yyyy  
 	SendInput %CurrentDateTime%
 return
-
-;double {tab}=>help to review RN
+/*
+;double {tab} => help to review RN
 :`t:`t::
-	Send, % Text_ReviewRN("Jack")
+	WinGetTitle, title, A
+	;if in sd review screen
+	if(RegExMatch(title, "Submit for Security Review \[SD\-\d+\] \- Green Dot Corp \| Issue Tracker")>0)
+	{
+		Send, % Text_ReviewRN("Jack")
+	}
 Return
+*/
 
-;hrv+{tab}+[name]+{tab}=>send out the text with name
+;hrv+{tab}+[name]+{tab} => send out the text with name
 :`t:hrv::
 	Input, OutputVar,, {tab}
 	if(OutputVar=="")
@@ -93,7 +99,7 @@ Return
 Return
 
 ;open jira ticket
-~^+q::
+^!q::
 	InputBox, searchtext, Ticket No.:, input search text ,,,100
 	if(searchtext=="")
 		Return
@@ -132,15 +138,9 @@ Return
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Test;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 !t::
-	;For key, value in account_gd
-	;	MsgBox %key% = %value%
-	;Input, inputVar, L1 M
-	InputBox, inputVar, Test:, input text ,,,100
-	;Input, index, L1 M
-	if(RegExMatch(inputVar,"^\d+$")>0)
-	{
-		;inputVar := "GD-"+inputVar
-		inputVar = GD-%inputVar%
-		MsgBox match found %inputVar%
-	}
+	WinGetTitle, title, A
+	if(RegExMatch(title, "Submit for Security Review \[SD\-\d+\] \- Green Dot Corp \| Issue Tracker")>0)
+		MsgBox, Match %title%
+	else
+		MsgBox, not match `n%title%
 Return
