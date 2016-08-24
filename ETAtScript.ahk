@@ -1,8 +1,24 @@
 ﻿
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Text;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;for RN reivew text
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Global-Var;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+account_gd := []
+account_gd.Insert({id:"GDAA31202140",pwd:"NECTESTAU0"})
+account_gd.Insert({id:"GDAA31202140",pwd:"NECTESTAU0"})
+account_gd.Insert({id:"GDAA31202140",pwd:"NECTESTAU0"})
+account_gd.Insert({id:"GDAA31202140",pwd:"NECTESTAU0"})
+account_gd.Insert({id:"GDAA31202140",pwd:"NECTESTAU0"})
+account_gd.Insert({id:"GDAA31202140",pwd:"NECTESTAU0"})
+account_gd.Insert({id:"GDAA31202140",pwd:"NECTESTAU0"})
+account_gd.Insert({id:"GDAA31202140",pwd:"NECTESTAU0"})
+
+;MsgBox, account loaded
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-Text;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;hrv+{tab} help to review RN
 :`t:hrv::
 	Input, OutputVar,, {tab}
+	if(OutputVar=="")
+	{
+		OutputVar := "Jack"
+	}
 	Send, Hi %OutputVar%, 
 	(
 
@@ -11,16 +27,37 @@ thanks.
 	)
 Return
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-Edit;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;chose a line
+!a::
+	Send {Home}
+	Send +{End}
+Return
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-Web;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;open google
 ^+g::
-	Run "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "https://www.google.com/"
+	InputBox, searchtext, Google:, input search text ,,,100
+	if(searchtext=="")
+		Return
+	Run "https://www.google.com/#q=%searchtext%"
+Return
+
+;baidu the selected text
+~^+b::
+	InputBox, searchtext, Baidu:, input search text ,,,100
+	if(searchtext=="")
+		Return
+	Run "https://www.baidu.com/s?wd=%searchtext%"
 Return
 
 ;google the selected text
 !g::
 	;AutoTrim, on
 	Send ^c
+	sleep 100
 	searchtext = %clipboard%
 	searchtext := Trim(searchtext)
 	Run "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "https://www.google.com/#q=%searchtext%"
@@ -31,25 +68,35 @@ Return
 !b::
 	;AutoTrim, on
 	Send ^c
+	sleep 100
 	searchtext = %clipboard%
 	searchtext := Trim(searchtext)
 	Run "https://www.baidu.com/s?wd=%searchtext%"
 Return
 
-;chose a line
-!a::
-	Send {Home}
-	Send +{End}
+;open jira ticket
+~^+q::
+	InputBox, searchtext, Ticket No.:, input search text ,,,100
+	if(searchtext=="")
+		Return
+	Run "https://pd/browse/%searchtext%"
 Return
 
-^+LButton up::
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-GDSite;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+^+x up::
+	Input, index, L1 M
 	WinGetTitle, title, A
 	targetText := "Account Login"
+	acc := account_gd[index]
+	accid := acc.id
+	accpwd := acc.pwd
+	if(accid=="")
+		Return
 	IfInString, title, %targetText%
-		Send, GDAA31202140
+		Send, %accid%
 		Send, {tab}
 		Send, {tab}
-		Send, NECTESTAU0
+		Send, %accpwd%
 		Send, {Enter}
 Return
 
@@ -61,11 +108,12 @@ Input, OutputVar, L1 M
 Return
 
 !t::
-	WinGetTitle, title, A
-	WinGetText, TText
-	targetText := "Account Login"
-	IfInString, title, %targetText%
-		MsgBox, Window WinGetTitle %title% `rText %TText%
-	else
-		MsgBox, WinGetTitle %title%
+	;For key, value in account_gd
+	;	MsgBox %key% = %value%
+	Input, index, L1 M
+	;Input, index, L1 M
+	acc := account_gd[index]
+	accid := acc.id
+	accpwd := acc.pwd
+	Send, %accid%:%accpwd%
 Return
