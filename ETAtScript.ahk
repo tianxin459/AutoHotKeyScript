@@ -1,3 +1,27 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Readme - Shortcut;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;{Alt}+{a} => chose a line
+
+;{ctrl}+{shift}+{g} => open google
+;{alt}+{g} => google current selected text
+;{ctrl}+{shift}+{b} => open google
+;{alt}+{b} => baidu current selected text
+;{ctrl}+{alt}+{q} => open ticket Jira/RN
+;(greendot.com){ctrl}+{shift}+{x} > {1-9} => input userid/pwd in greendot.com 
+
+;{ctrl}+{shift}+{c} => open cmd in current folder
+;(CMD){ctrl}+{c} => copy selected text
+;(CMD){ctrl}+{v} => paste copied text
+;{alt}+{shift}+{p} => save screenshot for hpscan 
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Readme - HotString;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;{]}{d} => datetime MM/dd/yyyy
+;(SQL Server){*}{*} => enter:top 10 * 
+;(jira){c}{c}{c} => enter:cc ....
+;{]}{r}{v}{tab} > [name]{tab} => enter: text with [name]
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Global-Var;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 account_gd := []
@@ -10,7 +34,7 @@ account_gd.Insert({id:"achen1GDFSC", pwd:"nectest1"}) ;6
 account_gd.Insert({id:"GDepark4334", pwd:"Nectest8"}) ;7
 account_gd.Insert({id:"yygd793801", pwd:"nectest66"}) ;8
 
-;MsgBox, account loaded
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Function;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Text_ReviewRN(name){
 	content = 
@@ -41,7 +65,7 @@ cc [~snellaiyappan], [~sperumal], [~efeigelstock], [~xwang], [~jstabile], [~ddon
 return
 
 
-;hrv+{tab}+[name]+{tab} => send out the text with name
+;{]}{r}{v}+{tab}+[name]+{tab} => send out the text with name
 :`t:]rv::
 	Input, OutputVar,, {tab}
 	if(OutputVar=="")
@@ -52,7 +76,7 @@ return
 Return
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-Edit;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;chose a line
+;{Alt}+{a} => chose a line
 !a::
 	Send {Home}
 	Send +{End}
