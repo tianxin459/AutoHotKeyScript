@@ -42,7 +42,7 @@ return
 
 
 ;hrv+{tab}+[name]+{tab} => send out the text with name
-:`t:hrv::
+:`t:]rv::
 	Input, OutputVar,, {tab}
 	if(OutputVar=="")
 	{
