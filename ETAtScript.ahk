@@ -75,6 +75,9 @@ return
 	Send, % Text_ReviewRN(OutputVar)
 Return
 
+;]plmk::
+:*:]plmk:: Please let me know if you have any concerns.{enter}{enter}Thanks.
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-Edit;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;{Alt}+{a} => chose a line
 !a::
@@ -93,7 +96,7 @@ Return
 Return
 
 ;baidu the selected text
-^+b::
+~^+b::
 	InputBox, searchtext, Baidu:, input search text ,,,100
 	if(searchtext=="")
 		Return
@@ -142,10 +145,11 @@ Return
 Return
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-GDSite;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-^+x up::
+^+x::
 	Input, index, L1 M
 	WinGetTitle, title, A
 	targetText := "Account Login"
+	inforText := "Green Dot | Personal Info"
 	acc := account_gd[index]
 	accid := acc.id
 	accpwd := acc.pwd
@@ -157,6 +161,25 @@ Return
 		Send, {tab}
 		Send, %accpwd%
 		Send, {Enter}
+
+Return
+
+^!x::
+	WinGetTitle, title, A
+	personalinforText := "Green Dot | Personal Info"
+	IfInString, title, %personalinforText%
+		Send, Gordon{tab} ;firstname	
+		Send, James{tab} ;lastname
+		Send, 3465{space}E{space}Foothill{space}Blvd{tab} ;street
+		Send, Ste{space}200{tab} ;apt
+		Send, Pasadena{tab} ;city
+		Send, CA{tab} ;state
+		Send, 91107{tab} ;zip
+		Send, 6266666667{tab}{tab} ;phone
+		Send, ellis.tian@greendot.com{tab} ;email
+		Send, 101000002{tab} ;ssn
+		Send, 12121984{tab} ;dob
+		Send, 1212{tab} ;pin
 Return
 
 
@@ -179,9 +202,6 @@ Return
 	dirfolder = C:\Users\etian\Desktop\Works\
 	FormatTime, CurrentDateTime,, yyyyMMdd  
 	InputBox, strComponent, Component:, input Component text ,,,100
-	if ErrorLevel
-		Return
-
 	Run MSPAINT
 	sleep 500
 	Send, ^v
@@ -219,7 +239,7 @@ Return
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-App wise;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;** => top 10 *
 #IfWinActive ahk_class wndclass_desked_gsk
-:*:**::SendInput, top 10 *
+:*:**:: top 20 *{Space}
 return
 
 ;enable the ctrl+c/ctrl+v in cmd
