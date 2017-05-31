@@ -24,7 +24,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Global-Var;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-account_gd := []"C:\Program Files\Sublime Text 3\sublime_text.exe"
+account_gd := []
 account_gd.Insert({id:"GDAA31202140",pwd:"NECTESTAU0"}) ;1
 account_gd.Insert({id:"swntest01", pwd:"nectest01"}) ;2
 account_gd.Insert({id:"PREP3296364", pwd:"NECTESTAU0"}) ;3
