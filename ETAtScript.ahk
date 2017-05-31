@@ -12,7 +12,7 @@
 ;{ctrl}+{shift}+{c} => open cmd in current folder
 ;(CMD){ctrl}+{c} => copy selected text
 ;(CMD){ctrl}+{v} => paste copied text
-;{alt}+{shift}+{p} => save screenshot for hpscan 
+;{alt}+{shift}+{alt}+{p} => save screenshot for hpscan 
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Readme - HotString;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -24,7 +24,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Global-Var;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-account_gd := []
+account_gd := []"C:\Program Files\Sublime Text 3\sublime_text.exe"
 account_gd.Insert({id:"GDAA31202140",pwd:"NECTESTAU0"}) ;1
 account_gd.Insert({id:"swntest01", pwd:"nectest01"}) ;2
 account_gd.Insert({id:"PREP3296364", pwd:"NECTESTAU0"}) ;3
@@ -198,8 +198,8 @@ Return
 Return
 
 ;save screenshot for hpscan
-^+p::
-	dirfolder = C:\Users\etian\Desktop\Works\
+^+!p::
+	dirPfolder = C:\Users\etian\Desktop\Works\
 	FormatTime, CurrentDateTime,, yyyyMMdd  
 	InputBox, strComponent, Component:, input Component text ,,,100
 	Run MSPAINT
