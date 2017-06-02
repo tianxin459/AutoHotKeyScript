@@ -88,7 +88,7 @@ Return
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-Web;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;open google
-^+g::
+~^!+g::
 	InputBox, searchtext, Google:, input search text ,,,100
 	if(searchtext=="")
 		Return
@@ -96,7 +96,7 @@ Return
 Return
 
 ;baidu the selected text
-~^+b::
+~^!+b::
 	InputBox, searchtext, Baidu:, input search text ,,,100
 	if(searchtext=="")
 		Return
@@ -185,17 +185,17 @@ Return
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-System;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;open cmd
-+^c::
-	IfWinActive, ahk_class CabinetWClass
-	{
-		ControlGetText, address, edit1, ahk_class CabinetWClass
-		Run, cmd, %address%
-	}
-	else
-	{
-		Run, cmd
-	}
-Return
+; +^c::
+; 	IfWinActive, ahk_class CabinetWClass
+; 	{
+; 		ControlGetText, address, edit1, ahk_class CabinetWClass
+; 		Run, cmder, %address%
+; 	}
+; 	else
+; 	{
+; 		Run, cmder
+; 	}
+; Return
 
 ;save screenshot for hpscan
 ^+!p::
