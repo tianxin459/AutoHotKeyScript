@@ -76,7 +76,7 @@ return
 Return
 
 ;]plmk::
-:*:]plmk:: Please let me know if you have any concerns.{enter}{enter}Thanks.
+:*:]plmk:: Please let me know if you have any concerns.{enter}Thanks.
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Shortcut-Edit;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;{Alt}+{a} => chose a line
